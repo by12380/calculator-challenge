@@ -1,3 +1,5 @@
+const MAX_VALUE = 1000
+
 export default function calculate (inputString) {
   // Regex matching ',' or '\n'
   const delimiter = /,|\n/
@@ -15,7 +17,14 @@ export default function calculate (inputString) {
     const validInteger = /^-?\d+$/.test(value)
 
     const valid = !isEmpty && validInteger
-    return valid ? parseInt(value) : 0
+
+    // Return 0 if input value is invalid
+    if (!valid) return 0
+
+    const number = parseInt(value)
+
+    // Return 0 if number is greater than 1000
+    return number > MAX_VALUE ? 0 : number
   })
 
   const negativeNumbers = mappedValues.filter(value => {
