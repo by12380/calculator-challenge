@@ -36,9 +36,28 @@ describe('calculate', () => {
     expect(calculate('1, 5000')).toBe(5001)
   })
 
-  test('Should throw an error when more than two input values exists', () => {
-    expect(() => calculate('1, 2, 3')).toThrow('More than two numbers provided.')
-    expect(() => calculate(',,')).toThrow('More than two numbers provided.')
-    expect(() => calculate('d1, 123, -23')).toThrow('More than two numbers provided.')
+  test('Should return 0 when all input values contain invalid characters', () => {
+    expect(calculate('x, y, z, a, b')).toBe(0)
+    expect(calculate('2k, x6, -3d, as3, da')).toBe(0)
+  })
+
+  test('Should return the number when only one is a number out of all input values', () => {
+    expect(calculate('123, x, y, z')).toBe(123)
+    expect(calculate('x, y, z, -123')).toBe(-123)
+    expect(calculate('5, tytyt, asasa, -c3c3c')).toBe(5)
+  })
+
+  test('Should return correct sum when a mix of valid numbers and invalid input values', () => {
+    expect(calculate('123, x, y, z')).toBe(123)
+    expect(calculate('x, y, z, -123')).toBe(-123)
+    expect(calculate('5, tytyt, asasa, -c3c3c')).toBe(5)
+  })
+
+  test('Should return the sum of numbers when all inputs values are numbers', () => {
+    expect(calculate('123, 321, 111, 0')).toBe(555)
+    expect(calculate('-123, -321, -111, 0')).toBe(-555)
+    expect(calculate('0, 0, 0, 0, 0')).toBe(0)
+    expect(calculate('4, -3, -4, 3')).toBe(0)
+    expect(calculate('1, 5000, 10000')).toBe(15001)
   })
 })
