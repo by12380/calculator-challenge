@@ -1,6 +1,7 @@
 const MAX_VALUE = 1000
 const CUSTOM_DELIMITER_SINGLE_CHAR_REGEX = /^\/\/.\n/
 const CUSTOM_DELIMITER_MULTI_CHAR_REGEX = /^\/\/\[[^\]]*\]\n/
+const MULTI_CUSTOM_DELIMITER_MULTI_CHAR_REGEX = /^\/\/(\[[^\]]*\])+\n/
 
 export default function calculate (inputString) {
   // Regex matching ',' or '\n'
@@ -8,7 +9,9 @@ export default function calculate (inputString) {
 
   // Parse delimiter
   let parsedResult = null
-  if (parseMultiCharCustomDelimiter(inputString)) {
+  if (parseMultiCharMultiCustomDelimiter(inputString)) {
+    parsedResult = parseMultiCharMultiCustomDelimiter(inputString)
+  } else if (parseMultiCharCustomDelimiter(inputString)) {
     parsedResult = parseMultiCharCustomDelimiter(inputString)
   } else if (parseSingleCharCustomDelimiter(inputString)) {
     parsedResult = parseSingleCharCustomDelimiter(inputString)
@@ -108,6 +111,26 @@ const parseMultiCharCustomDelimiter = (inputString) => {
     customDelimiters.push(customDelimiter)
     // Set inputString to contain the numbers part of the input
     numbers = inputString.slice(customDelimiterPattern.length)
+
+  return {
+    customDelimiters,
+    numbers
+  }
+}
+
+const parseMultiCharMultiCustomDelimiter = (inputString) => {
+  let numbers = null
+  const hasMultiCharCustomDelimiter = MULTI_CUSTOM_DELIMITER_MULTI_CHAR_REGEX.test(inputString)
+  if (!hasMultiCharCustomDelimiter) return null
+
+  const customDelimiterPattern = inputString.match(MULTI_CUSTOM_DELIMITER_MULTI_CHAR_REGEX)[0]
+  let customDelimiters = customDelimiterPattern.slice(2, -1)    
+  customDelimiters = customDelimiters.match(/\[[^\]]*\]/g).map(delimiter => {
+    // Remove surrounding brakets
+    return delimiter.slice(1,-1)
+  })
+  // Set inputString to contain the numbers part of the input
+  numbers = inputString.slice(customDelimiterPattern.length)
 
   return {
     customDelimiters,
