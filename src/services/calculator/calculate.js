@@ -17,11 +17,6 @@ export default function calculate (inputString) {
     return valid ? parseInt(value) : 0
   })
 
-  // Cannot have more than two numbers
-  if (mappedValues.length > 2) {
-    throw Error('More than two numbers provided.')
-  }
-
   // Return sum of all numbers
   return mappedValues.reduce((sum, value) => {
     return sum += value
