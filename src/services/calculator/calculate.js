@@ -1,10 +1,30 @@
 const MAX_VALUE = 1000
+const CUSTOM_DELIMITER_REGEX = /^\/\/.\n/
 
 export default function calculate (inputString) {
   // Regex matching ',' or '\n'
-  const delimiter = /,|\n/
+  let delimiters = [',', '\n']
 
-  const inputValues = inputString.split(delimiter)
+  // Parse delimiter
+  const hasCustomDelimiter = CUSTOM_DELIMITER_REGEX.test(inputString)
+  if (hasCustomDelimiter) {
+    const customDelimiterPattern = inputString.match(CUSTOM_DELIMITER_REGEX)[0]
+    const customDelimiter =
+      customDelimiterPattern.slice(2, -1)
+      // Add custom delimiter to exisiting delimiters
+      delimiters.push(customDelimiter)
+      // Set inputString to contain the numbers part of the input
+      inputString = inputString.slice(customDelimiterPattern.length)
+  }
+
+  // Escape delimiters reserved in regex syntax
+  delimiters = delimiters.map(delimiter => {
+    return escapeRegExp(delimiter)
+  })
+
+  const regexDelimiters = new RegExp(delimiters.join('|'))
+
+  const inputValues = inputString.split(regexDelimiters)
 
   const mappedValues = inputValues.map(value => {
     // Trim white spaces
@@ -41,4 +61,8 @@ export default function calculate (inputString) {
   return mappedValues.reduce((sum, value) => {
     return sum += value
   }, 0)
+}
+
+const escapeRegExp = (string) => {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
