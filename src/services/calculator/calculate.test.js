@@ -80,4 +80,11 @@ describe('calculate', () => {
     expect(() => calculate(',-20\n')).toThrow('-20')
     expect(() => calculate('-5, das, -23')).toThrow('-5,-23')
   })
+
+  test('Should return correct sum when seperated by custom delimiter', () => {
+    expect(calculate('//#\n123, 321 \n 111# 0')).toBe(555)
+    expect(calculate('//!\n0, 0! 0\n 0, 0')).toBe(0)
+    expect(calculate('//*\n1* 5000\n10000, 2')).toBe(3)
+    expect(calculate('//.\n1.200\n300, 2')).toBe(503)
+  })
 })
