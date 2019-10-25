@@ -18,6 +18,16 @@ export default function calculate (inputString) {
     return valid ? parseInt(value) : 0
   })
 
+  const negativeNumbers = mappedValues.filter(value => {
+    return value < 0
+  })
+
+  // Throw error if input values contain negative numbers
+  if (negativeNumbers.length > 0) {
+    // Include all negative numbers in error
+    throw Error(negativeNumbers.join(','))
+  }
+
   // Return sum of all numbers
   return mappedValues.reduce((sum, value) => {
     return sum += value
