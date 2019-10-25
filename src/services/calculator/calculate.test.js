@@ -28,7 +28,7 @@ describe('calculate', () => {
 
   test('Should return the sum of numbers when both inputs values are valid numbers', () => {
     expect(calculate('123, 321')).toBe(444)
-    expect(calculate('1, 5000')).toBe(5001)
+    expect(calculate('1, 5000')).toBe(1)
   })
 
   test('Should return 0 when all input values contain invalid characters', () => {
@@ -49,7 +49,7 @@ describe('calculate', () => {
   test('Should return the sum of numbers when all inputs values are numbers', () => {
     expect(calculate('123, 321, 111, 0')).toBe(555)
     expect(calculate('0, 0, 0, 0, 0')).toBe(0)
-    expect(calculate('1, 5000, 10000')).toBe(15001)
+    expect(calculate('1, 5000, 10000')).toBe(1)
   })
 
   test('Should return sum when two number is seperated by newline charater', () => {
@@ -72,7 +72,7 @@ describe('calculate', () => {
   test('Should return correct sum when seperated by a mix of comma and newline charater', () => {
     expect(calculate('123, 321 \n 111, 0')).toBe(555)
     expect(calculate('0, 0, 0\n 0, 0')).toBe(0)
-    expect(calculate('1, 5000\n10000')).toBe(15001)
+    expect(calculate('1, 5000\n10000')).toBe(1)
   })
 
   test('Should throw an error when negative numbers exist', () => {
