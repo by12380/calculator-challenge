@@ -94,4 +94,11 @@ describe('calculate', () => {
     expect(calculate('//[***]\n1*** 5000\n10000, 2')).toBe(3)
     expect(calculate('//[.!*]\n1.!*200\n300, 2')).toBe(503)
   })
+
+  test('Should return correct sum when seperated by multiple multi-char custom delimiter', () => {
+    expect(calculate('//[#][!]\n123 ! 321 \n 111# 0')).toBe(555)
+    expect(calculate('//[!!][##]\n0, 0!! 0\n 0 ## 0')).toBe(0)
+    expect(calculate('//[***][!][#]\n 1 *** 5000\n10000,2!5#10')).toBe(18)
+    expect(calculate('//[.!*][@@]\n1.!*200\n300 @@ 2')).toBe(503)
+  })
 })
