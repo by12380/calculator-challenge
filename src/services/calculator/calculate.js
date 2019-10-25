@@ -1,5 +1,6 @@
 export default function calculate (inputString) {
-  const delimiter = ','
+  // Regex matching ',' or '\n'
+  const delimiter = /,|\n/
 
   const inputValues = inputString.split(delimiter)
 
