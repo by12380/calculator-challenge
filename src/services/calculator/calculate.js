@@ -1,20 +1,19 @@
 const MAX_VALUE = 1000
-const CUSTOM_DELIMITER_REGEX = /^\/\/.\n/
+const CUSTOM_DELIMITER_SINGLE_CHAR_REGEX = /^\/\/.\n/
 
 export default function calculate (inputString) {
   // Regex matching ',' or '\n'
   let delimiters = [',', '\n']
 
   // Parse delimiter
-  const hasCustomDelimiter = CUSTOM_DELIMITER_REGEX.test(inputString)
-  if (hasCustomDelimiter) {
-    const customDelimiterPattern = inputString.match(CUSTOM_DELIMITER_REGEX)[0]
-    const customDelimiter =
-      customDelimiterPattern.slice(2, -1)
-      // Add custom delimiter to exisiting delimiters
-      delimiters.push(customDelimiter)
-      // Set inputString to contain the numbers part of the input
-      inputString = inputString.slice(customDelimiterPattern.length)
+  if (parseSingleCharCustomDelimiter(inputString)) {
+    const {
+      customDelimiters,
+      numbers
+    } = parseSingleCharCustomDelimiter(inputString)
+
+    delimiters = [...delimiters, ...customDelimiters]
+    inputString = numbers
   }
 
   // Escape delimiters reserved in regex syntax
@@ -65,4 +64,24 @@ export default function calculate (inputString) {
 
 const escapeRegExp = (string) => {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+const parseSingleCharCustomDelimiter = (inputString) => {
+  const customDelimiters = []
+  let numbers = null
+  const hasSingleCharCustomDelimiter = CUSTOM_DELIMITER_SINGLE_CHAR_REGEX.test(inputString)
+  if (!hasSingleCharCustomDelimiter) return null
+
+  const customDelimiterPattern = inputString.match(CUSTOM_DELIMITER_SINGLE_CHAR_REGEX)[0]
+  const customDelimiter =
+    customDelimiterPattern.slice(2, -1)
+    // Collect custom delimiters
+    customDelimiters.push(customDelimiter)
+    // Set inputString to contain the numbers part of the input
+    numbers = inputString.slice(customDelimiterPattern.length)
+
+  return {
+    customDelimiters,
+    numbers
+  }
 }
