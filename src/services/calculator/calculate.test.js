@@ -60,4 +60,31 @@ describe('calculate', () => {
     expect(calculate('4, -3, -4, 3')).toBe(0)
     expect(calculate('1, 5000, 10000')).toBe(15001)
   })
+
+  test('Should return sum when two number is seperated by newline charater', () => {
+    expect(calculate('0\n1')).toBe(1)
+    expect(calculate('-1\n0')).toBe(-1)
+  })
+
+  test('Should return the number when only one input value is number, seperated by newline charater', () => {
+    expect(calculate('0\nx')).toBe(0)
+    expect(calculate('y\n-1')).toBe(-1)
+    expect(calculate('x\ny\n-1')).toBe(-1)
+    expect(calculate('-1\nx\ny')).toBe(-1)
+  })
+
+  test('Should return correct sum when mixed with valid and non-valid input values, seperated by newline charater', () => {
+    expect(calculate('0\nx\n1')).toBe(1)
+    expect(calculate('y\n-1\nx')).toBe(-1)
+    expect(calculate('-5\nx\ny\n-1')).toBe(-6)
+    expect(calculate('-1\nx\n-3\ny')).toBe(-4)
+  })
+
+  test('Should return correct sum when seperated by a mix of comma and newline charater', () => {
+    expect(calculate('123, 321 \n 111, 0')).toBe(555)
+    expect(calculate('-123\n -321, -111 \n0')).toBe(-555)
+    expect(calculate('0, 0, 0\n 0, 0')).toBe(0)
+    expect(calculate('4, -3, -4\n3')).toBe(0)
+    expect(calculate('1, 5000\n10000')).toBe(15001)
+  })
 })
