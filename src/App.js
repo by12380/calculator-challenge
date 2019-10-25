@@ -1,5 +1,6 @@
 import React  from 'react';
 import CalculatorInput from './components/CalculatorInput'
+import SubmitButton from './components/SubmitButton'
 import './App.css';
 
 class App extends React.Component {
@@ -19,6 +20,9 @@ class App extends React.Component {
         <CalculatorInput
           onInputChange={this.handleInputChange}
         />
+        <div className="submit-btn-wrapper">
+          <SubmitButton />
+        </div>
       </div>
     )
   }

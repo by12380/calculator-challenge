@@ -2,3 +2,8 @@
   padding-top: 50px;
   text-align: center;
 }
+
+.submit-btn-wrapper {
+  display: inline-block;
+  margin-left: 8px;
+}
